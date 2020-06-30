@@ -32,4 +32,16 @@ export const Content = styled.div`
         border: 2.2px solid #006E8A;
         border-radius: 50%;
     }
+    .header-container svg{
+        font-size: 1.6rem;
+        margin-right: 13%;
+        cursor: pointer;
+        transition: .2s;
+    }
+    .header-container svg:hover{
+        color: #724a36;
+    }
+    .header-container h1 {
+
+    }
 `;

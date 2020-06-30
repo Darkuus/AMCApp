@@ -10,31 +10,31 @@ import RevealDate from '../../Components/RevealDate/Index';
 import MemberCard from '../../Components/MemberCard/Index';
 import GroupAdminTools from '../../Components/GroupAdminTools/Index';
 
+interface Group {
+    _id: string,
+    administrator: {
+        name: string,
+        username: string,
+        email: string
+    },
+    title: string,
+    revealDate: Date,
+    minValue: number,
+    maxValue: number,
+    revealPlaceLatitude: number,
+    revealPlaceLongetude: number,
+    members: {
+        _id: string,
+        name: string,
+        username: string,
+        email: string,
+        profilePic: string
+    }[]
+}
 
 const GroupCard = () => {
     const { id } = useParams();
 
-    interface Group {
-        _id: string,
-        administrator: {
-            name: string,
-            username: string,
-            email: string
-        },
-        title: string,
-        revealDate: Date,
-        minValue: number,
-        maxValue: number,
-        revealPlaceLatitude: number,
-        revealPlaceLongetude: number,
-        members: {
-            _id: string,
-            name: string,
-            username: string,
-            email: string,
-            profilePic: string
-        }[]
-    }
     //States
     const [group, setGroup] = useState<Group>();
     const [isAdmin, setIsAdmin] = useState<Boolean>(false);

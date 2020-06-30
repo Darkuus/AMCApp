@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react';
 
+import { useAuth } from '../../Context/auth';
+
+
 import api from '../../Services/api';
 import { Content } from './styles';
 import { FaPlus, FaPlusSquare } from 'react-icons/fa';
@@ -8,52 +11,38 @@ import { FaPlus, FaPlusSquare } from 'react-icons/fa';
 import Header from '../../Components/Header/';
 import GroupCard from '../../Components/GroupCard';
 
+interface Group {
+    administrator: Administrator,
+    _id: string,
+    title: string,
+    revealDate: Date,
+    minValue: Number,
+    maxValue: Number,
+    revealPlaceLatitude: Number,
+    revealPlaceLongetude: Number,
+    members: User[]
+}
+
+interface User{
+    _id: string,
+    username: string,
+    name: string,
+    email: string
+    profilePic: string,
+}
+
+interface Administrator{
+    username: string,
+    name: string,
+    email: string
+}
+
 const Home = () => {
-
-    interface Group {
-        administrator: Administrator,
-        _id: string,
-        title: string,
-        revealDate: Date,
-        minValue: Number,
-        maxValue: Number,
-        revealPlaceLatitude: Number,
-        revealPlaceLongetude: Number,
-        members: User[]
-    }
-
-    interface User{
-        _id: string,
-        username: string,
-        name: string,
-        email: string
-        profilePic: string,
-    }
-
-    interface Administrator{
-        username: string,
-        name: string,
-        email: string
-    }
-
-    const [groups, setGroups] = useState<Group[]>([]);
     const [groupsExists, setGroupsExists] = useState<Boolean>(false);
 
-    useEffect(() => {
-        const headers = {
-            'Authorization': localStorage.getItem('auth')
-        }
+    const { groups } = useAuth();
 
-        api.get(`/group/getAllByUsername/${localStorage.getItem('username')}`, {
-            headers: headers
-        }).then(response => {
-            setGroups(response.data);
-            setGroupsExists(true);
-        }).catch(err => {
-            alert('Internal Error: ' + err)
-        });
-
-    }, []);
+    console.log(groups);
 
     return(
         <Content>
@@ -67,18 +56,18 @@ const Home = () => {
                     </div>
                     <ul>
                         { 
-                                groups.map( group => {
-                                    return (
-                                        <GroupCard
-                                            _id={group._id}
-                                            title={group.title} 
-                                            revealDate={group.revealDate} 
-                                            minValue={group.minValue} 
-                                            maxValue={group.maxValue}
-                                            count={2}
-                                        />
-                                    )
-                                })
+                            groups?.map( group => {
+                                return (
+                                    <GroupCard
+                                        _id={group._id}
+                                        title={group.title} 
+                                        revealDate={group.revealDate} 
+                                        minValue={group.minValue} 
+                                        maxValue={group.maxValue}
+                                        count={2}
+                                    />
+                                )
+                            })
                         }
                     </ul>
                 </div>
